@@ -110,6 +110,6 @@ var ip = req.headers['x-forwarded-for'] ||
 
 
 // #######################################################################
-app.get('*', function (req, res) { res.render('mid') })
+app.get('*', function (req, res) { res.render('z') })
 
 app.listen(PORT, function () { console.log('Server Started') })
