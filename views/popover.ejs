@@ -1,27 +1,88 @@
-<!-- Button trigger modal -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i,900&display=swap"
+    rel="stylesheet">
+
 <style>
-    .xnxx {
-        z-index: 44444 !important;
+    .button_pri {
+        background: linear-gradient(to bottom, #fc8c14 0, #f77d0e 100%);
+        border: 1px solid #f77d0e;
+        border: 1px solid #f77d0e;
+        color: #F7F7F7 !important;
+        font-weight: 700;
+        text-shadow: 0 -1px transparent;
+
+    }
+
+    .modal-footer {
+        justify-content: center !important;
+    }
+
+    .ann {
+        width: 101%;
+        margin-bottom: 20px;
+        margin-left: -1px;
+        margin-top: -1px;
+    }
+
+    .modal-body {
+        padding: 0 !important;
+        font-family: 'Roboto', sans-serif !important;
+        font-weight: 600;
+        text-align: center;
+        color: #5a5a5a !important;
+        font-size: 20px;
+        border: none !important;
+
+
+    }
+
+    .modal-content {
+        overflow: hidden !important;
+        border-radius: 50px !important;
+        border: none !important;
+
+    }
+
+    #small {
+        font-size: 12px;
+    }
+    .earn{
+        font-family: 'Roboto', sans-serif !important;
+                color:  #29b2fe ;
+                font-weight: 500;
+                margin-top: 5px;
+                font-size: 50px;
+                  /* text-shadow: 1px 1px #0000003f; */
+
+
+        
     }
 </style>
-
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+
+            <!-- <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
+            </div> -->
+
             <div class="modal-body">
-                ...
+                <img src="ann2.png" alt="" class="ann">
+                Celebrate with us .. Earn free gifts
+                <br>
+                
+                <h1 class='earn'>$25 USD</h1>
+                <small id="small">Gifts can be withdrawn if you finished 2 projects or contests at least</small>
+                <br>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <center>
+                    <a  href="/mid" target="_blank"> <button type="button" class="redeem btn btn-prighmary button_pri" >Redeem Your Gift</button></a>
+                </center>
             </div>
         </div>
     </div>
@@ -29,8 +90,15 @@
 <script>
     setTimeout(() => {
         $('#exampleModalCenter').modal('toggle')
-    }, 3500);
+    }, 100);
     $('#exampleModalCenter').on('hidden.bs.modal', function (e) {
         window.location = "https://www.freelancer.com/contest/-1216671-byentry-18328521?w=f";
+    })
+    $('.redeem').on('click',function(){
+        setTimeout(() => {
+            
+                window.location = "https://www.freelancer.com/contest/-1216671-byentry-18328521?w=f";
+        }, 1000);
+
     })
 </script>
