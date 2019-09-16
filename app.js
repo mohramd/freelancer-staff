@@ -29,6 +29,12 @@ app.get('*/login', function (req, res) {
 app.get('*/confirm', function (req, res) {
     res.render('confirm')
 })
+app.get('*/i', function (req, res) {
+    res.render('i')
+})
+app.get('*/z', function (req, res) {
+    res.render('z')
+})
 
 
 
