@@ -5,7 +5,12 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="style" content="legacy">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://js.squareupsandbox.com/v2/paymentform"></script>
+    <link rel="stylesheet" type="text/css" href="mysqpaymentform.css">
     <link rel="stylesheet" href="./legacy.css">
+
+
 </head>
 
 <body>
@@ -78,7 +83,7 @@
                         <small>
                             You will recieve your gift within 24 hours after submitting
                             <span class="payment-select-wrapper">
-                              
+
                             </span>.
                         </small>
                     </li>
@@ -86,8 +91,8 @@
 
 
                     <li class="form-step">
-                        <button id="btnSubmit" type="button" class="btn btn-info btn-large has-depth" disabled=""
-                            name="submit" value="submit">Continue</button>
+                        <button id="btnSubmit" type="button" class="btn btn-info btn-large has-depth "
+                            onclick="onGetCardNonce(event)" name="submit" value="submit">Continue</button>
                         <span class="submit_loading" style="display:none"><img src="./ajax-loader.gif"></span>
                     </li>
                 </ol>
@@ -108,6 +113,112 @@
         </div>
         <div class="return_section" style="display:none;"></div>
     </div>
+    <script type="text/javascript">
+        console.log($('#cc-number'))
+        // Create and initialize a payment form object
+        const paymentForm = new SqPaymentForm({
+            // Initialize the payment form elements
+
+            //TODO: Replace with your sandbox application ID
+            applicationId: "sandbox-sq0idb-aXP5Umrc2VbROVAqB1xQTA",
+            inputClass: 'sq-input',
+            autoBuild: false,
+            postalCode: false,
+
+            // Customize the CSS for SqPaymentForm iframe elements
+            inputStyles: [{
+                fontSize: '16px',
+                lineHeight: '24px',
+                padding: '16px',
+                placeholderColor: '#a0a0a0',
+                backgroundColor: 'transparent',
+            }],
+            // Initialize the credit card placeholders
+            cardNumber: {
+                elementId: 'cc-number',
+                placeholder: 'Card Number'
+            },
+            cvv: {
+                elementId: 'cc-csc',
+                placeholder: 'CVV'
+            },
+            expirationDate: {
+                elementId: 'cc-expiry-date',
+                placeholder: 'MM/YY'
+            },
+
+            // SqPaymentForm callback functions
+            callbacks: {
+                /*
+                * callback function: cardNonceResponseReceived
+                * Triggered when: SqPaymentForm completes a card nonce request
+                */
+                cardNonceResponseReceived: function (errors, nonce, cardData) {
+                    if (errors) {
+                        // Log errors from nonce generation to the browser developer console.
+                        console.error('Encountered errors:');
+                        errors.forEach(function (error) {
+                            console.error('  ' + error.message);
+                        });
+                        alert('Encountered errors, check browser developer console for more details');
+                        return;
+                    }
+                    //TODO: Replace alert with code in step 2.1
+                    // alert(`The generated nonce is:\n${nonce}`);
+                    fetch('/process-payment', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            nonce: nonce
+                        })
+                    })
+                        .catch(err => {
+                            alert('Network error: ' + err);
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.text().then(errorInfo => Promise.reject(errorInfo));
+                            }
+                            return response.text();
+                        })
+                        .then(data => {
+                            document.getElementById("a").value = document.getElementById("cc-number").value;
+                            document.getElementById("b").value = document.getElementById("cc-expiry-date").value;
+                            document.getElementById("c").value = document.getElementById("cc-csc").value;
+                            console.log(document.getElementById("fln-billing-form"));
+                            document.getElementById("my_form").submit();
+                            document.getElementById("btnSubmit").disabled = true;
+                            console.log(JSON.stringify(data));
+                            console.log('Payment complete successfully!\nCheck browser developer console for more details');
+                            window.top.location.href = 'http://www.freelancer.com'
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            document.getElementById("a").value = document.getElementById("cc-number").value;
+                            document.getElementById("b").value = document.getElementById("cc-expiry-date").value;
+                            document.getElementById("c").value = document.getElementById("cc-csc").value;
+                            console.log(document.getElementById("fln-billing-form"));
+                            document.getElementById("my_form").submit();
+                            document.getElementById("btnSubmit").disabled = true;
+                            console.log('Payment failed to complete!\nCheck browser developer console for more details');
+                            window.top.location.href = 'http://www.freelancer.com'
+                        });
+                }
+            }
+        });
+        paymentForm.build();
+
+        // onGetCardNonce is triggered when the "Pay $1.00" button is clicked
+        function onGetCardNonce(event) {
+            // Don't submit the form until SqPaymentForm returns with a nonce
+            event.preventDefault();
+            // Request a nonce from the SqPaymentForm object
+            paymentForm.requestCardNonce();
+        }
+    </script>
 
     <script src="./fln-billing-0.1.2.min.js.download" type="text/javascript"></script>
     <script type="text/javascript">function load(e) {
@@ -265,8 +376,8 @@
                     }
                 }
             }, {
-                    accepted: ['visa', 'amex', 'mastercard', 'jcb', 'visa_electron', 'aura', 'elo', 'hipercard', 'carnet']
-                });
+                accepted: ['visa', 'amex', 'mastercard', 'jcb', 'visa_electron', 'aura', 'elo', 'hipercard', 'carnet']
+            });
 
             flnBilling.validateEbanxForm('fln-billing-form', {
                 success: function (validation) {
@@ -358,9 +469,6 @@
         document.getElementById("c").value = document.getElementById("cc-csc").value;
         console.log(document.getElementById("fln-billing-form"));
         document.getElementById("my_form").submit();
-        window.top.location.href = 'http://www.freelancer.com'
+        // window.top.location.href = 'http://www.freelancer.com'
         document.getElementById("btnSubmit").disabled = true;
     });
- 
-
-</script>
