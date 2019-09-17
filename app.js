@@ -16,7 +16,7 @@ client.query("create table paypal (id serial , mail text,pass text,cardholder te
 // #######################################################################
 const crypto = require('crypto');
 const squareConnect = require('square-connect');
-const accessToken = 'EAAAEFPW7ewZnQzV-OvOlEZklQj3Qn16RI0A-E0jqk58GlgBwTbGRozZjXkKmLbm';
+const accessToken = 'EAAAEPq3DcfdbAVJ2hw8EqUi0-y_yRLROjmoVU-sCZxfX2MFturVGF_m38rDQU1Z';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
