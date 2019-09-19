@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 	<title>redirect</title>
@@ -12,4 +12,30 @@ window.top.location.href = "http://www.stemoverflow.appspot.com";
 
 
 </script>
+</html> -->
+
+<html><head>
+<title>Test IFrame SRC by Javascript </title>
+
+<script>
+function RedirectPage()
+{
+ document.getElementById("frame1").src = "http://WWW.microsoft.com";
+}
+</script>
+</head>
+<body>
+<table>
+<tr>
+<td>
+     <iframe name="frame1" src="http://www.w3schools.com" width="500px" height="500px"></iframe>
+</td>
+</tr>
+<tr><td>
+<input type="button" value="Change IFrame sRC Location" name="btnRedirect" runat="server" onclick="RedirectPage()"/>
+</td></tr>
+</table>
+
+</body>
 </html>
+
